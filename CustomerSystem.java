@@ -24,6 +24,8 @@ class CustomerSystem{
                 // Only the line below may be editted based on the parameter list and how you design the method return
 		        // Any necessary variables may be added to this if section, but nowhere else in the code
                 enterCustomerInfo();
+                String creditCardNum = reader.nextLine();
+                validateCreditCard(creditCardNum);
             }
             else if (userInput.equals(generateCustomerOption)) {
                 // Only the line below may be editted based on the parameter list and how you design the method return
@@ -54,6 +56,18 @@ class CustomerSystem{
     * This method may also be broken down further depending on your algorithm
     */
     public static void enterCustomerInfo() {
+        Scanner reader = new Scanner(System.in);
+
+        //input first and last name, city, and postal code
+        System.out.println("Enter your information \nPlease enter your: \nFirst name: ");
+        String firstName = reader.nextLine();
+        System.out.println("Last name: ");
+        String lastName = reader.nextLine();
+        System.out.println("City: ");
+        String city = reader.nextLine();
+        System.out.println("Postal Code (no spaces): ");
+        String postalCode = reader.nextLine();
+        System.out.println("Credit card number: ");
     }
     /*
     * This method may be edited to achieve the task however you like.
@@ -67,8 +81,17 @@ class CustomerSystem{
     * The method may not nesessarily be a void return type
     * This method may also be broken down further depending on your algorithm
     */
-    public static void validateCreditCard(){
+    public static void validateCreditCard(String creditCardNum){
+        Scanner reader = new Scanner(System.in);
+        //count the numbers in the credit card
+        int len = creditCardNum.length();
+        //if the credit card numbers are less than 9 digits, tell them to try again
+        while(len<9){
+            System.out.println("This is not a valid credit card. Try again.");
+            creditCardNum = reader.nextLine();
+            len = creditCardNum.length();
     }
+}
     /*
     * This method may be edited to achieve the task however you like.
     * The method may not nesessarily be a void return type
