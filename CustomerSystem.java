@@ -92,30 +92,39 @@ class CustomerSystem {
             len = creditCardNum.length();
 
         }
+        //reverse the numbers of the credit cards
         String reverse = "";
         for (int i = len - 1; i >= 0; i--) {
             reverse = reverse + creditCardNum.charAt(i);
         }
+        //add up all odd digits of reversed credit card
         int oddSum = 0;
         for (int i = 0; i < len; i += 2) {
             char sum = reverse.charAt(i);
             oddSum += Character.getNumericValue(sum);
         }
+        //store the sum as an int
         int doubleSum = 0;
         
         for (int i = 1; i < len; i += 2) {
+            //double the digits of the even numbers 
             int doubleDigits = Character.getNumericValue(reverse.charAt(i))* 2;
+            //if any digit is greater than 9, add them up
             if (doubleDigits > 9) {
                 doubleSum += (doubleDigits % 10) + 1;
+                //add the doubled digits together and store as an int
             } else {
                 doubleSum += doubleDigits;
             }
         }
-        System.out.println(doubleSum + oddSum);
+        //add both sums together, and divide by 10, if there is no remainder than it is a valid credit card
         if((doubleSum+oddSum)%10 == 0){
             System.out.println("This is a valid credit card");
+        //if there is a remainder than it is not a valid credit card
         }while((doubleSum+oddSum)%10 != 0){
             System.out.println("Credit Card information is incorrect, try again");
+            doubleSum = 0;
+            oddSum = 0;
             creditCardNum = reader.nextLine();
             len = creditCardNum.length();
         }
