@@ -57,15 +57,15 @@ class CustomerSystem {
         Scanner reader = new Scanner(System.in);
 
         // input first and last name, city, and postal code
-        System.out.println("Enter your information \nPlease enter your: \nFirst name: ");
+        System.out.print("Enter your information \nPlease enter your: \nFirst name: ");
         String firstName = reader.nextLine();
-        System.out.println("Last name: ");
+        System.out.print("Last name: ");
         String lastName = reader.nextLine();
-        System.out.println("City: ");
+        System.out.print("City: ");
         String city = reader.nextLine();
-        System.out.println("Postal Code (no spaces): ");
+        System.out.print("Postal Code (no spaces): ");
         String postalCode = reader.nextLine();
-        System.out.println("Credit card number: ");
+        System.out.print("Credit card number: ");
     }
 
     /*
@@ -102,9 +102,9 @@ class CustomerSystem {
             oddSum += Character.getNumericValue(sum);
         }
         int doubleSum = 0;
-        
+
         for (int i = 1; i < len; i += 2) {
-            int doubleDigits = Character.getNumericValue(reverse.charAt(i))* 2;
+            int doubleDigits = Character.getNumericValue(reverse.charAt(i)) * 2;
             if (doubleDigits > 9) {
                 doubleSum += (doubleDigits % 10) + 1;
             } else {
@@ -112,9 +112,10 @@ class CustomerSystem {
             }
         }
         System.out.println(doubleSum + oddSum);
-        if((doubleSum+oddSum)%10 == 0){
+        if ((doubleSum + oddSum) % 10 == 0) {
             System.out.println("This is a valid credit card");
-        }while((doubleSum+oddSum)%10 != 0){
+        }
+        while ((doubleSum + oddSum) % 10 != 0) {
             System.out.println("Credit Card information is incorrect, try again");
             creditCardNum = reader.nextLine();
             len = creditCardNum.length();
