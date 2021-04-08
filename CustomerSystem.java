@@ -34,6 +34,7 @@ class CustomerSystem {
                 // design the method return
                 // Any necessary variables may be added to this if section, but nowhere else in
                 // the code
+                // put arrays in main method
                 String[] array = new String[5];
                 String[] array2 = enterCustomerInfo(array);
 
@@ -49,7 +50,7 @@ class CustomerSystem {
                     System.out.println(e);
 
                 }
-
+                //validate creditcard number 
                 validateCreditCard(creditCardNum);
 
                 generateCustomerDataFile();
@@ -86,7 +87,6 @@ class CustomerSystem {
         // input first and last name, city, and postal code
         System.out.print("Enter your information \nPlease enter your: \nFirst name: ");
         firstName = reader.nextLine();
-
         System.out.print("Last name: ");
         lastName = reader.nextLine();
         System.out.print("City: ");
@@ -97,13 +97,13 @@ class CustomerSystem {
         creditCardNum = reader.nextLine();
 
         reader.close();
-
+        // store strings as arrays
         array[0] = firstName;
         array[1] = lastName;
         array[2] = city;
         array[3] = postalCode;
         array[4] = creditCardNum;
-
+        //return array to main method
         return array;
 
     }
@@ -114,7 +114,7 @@ class CustomerSystem {
      * further depending on your algorithm
      */
     public static void validatePostalCode(String postalCode) {
-        
+
         Scanner reader1 = new Scanner(System.in);
         // count the digits in postal code
         int postNum = postalCode.length();
@@ -127,34 +127,29 @@ class CustomerSystem {
             postNum = postalCode.length();
 
         }
-        
+
         BufferedReader reader;
 
-        if (postNum >= 3){
+        if (postNum >= 3) {
             try {
                 reader = new BufferedReader(new FileReader("postal_codes.csv"));
                 String line = reader.readLine();
-                while(!(postalCode.equals(line))){
+                while (!(postalCode.equals(line))) {
                     System.out.println("This is not a valid postal code. Please enter your postal code: ");
                     postalCode = reader1.nextLine();
                     postNum = postalCode.length();
                 }
-                
-    
-                reader.close();  
+
+                reader.close();
             }
-    
-            catch(IOException e) {
+
+            catch (IOException e) {
                 e.printStackTrace();
-    
+
             }
 
         }
-        
 
-        
-
-        
     }
 
     /*
