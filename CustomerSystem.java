@@ -3,9 +3,11 @@
 import java.util.Scanner;
 // More packages may be imported in the space below
 
-import java.io.File;
-
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.FileNotFoundException;
+
+import java.io.BufferedReader;
 
 class CustomerSystem {
     public static void main(String[] args) {
@@ -29,6 +31,9 @@ class CustomerSystem {
                 // the code
 
                 enterCustomerInfo();
+                String PostalCode = reader.nextLine();
+                validatePostalCode(PostalCode);
+                
                 String creditCardNum = reader.nextLine();
                 validateCreditCard(creditCardNum);
             } else if (userInput.equals(generateCustomerOption)) {
@@ -80,46 +85,42 @@ class CustomerSystem {
      * further depending on your algorithm
      */
     public static void validatePostalCode(String postalCode) {
-        Scanner reader = new Scanner(System.in);
+        
+        Scanner reader1 = new Scanner(System.in);
         // count the digits in postal code
-        postNum = postalCode.length();
+        int postNum = postalCode.length();
 
         // if the postal code num is more then 3 or less then 3 digits
 
-        while (postNum != 3) {
+        while (postNum < 3) {
             System.out.print("This is not a valid postal code. Please enter your 3 digit postal code: ");
-            postalCode = reader.nextLine();
+            postalCode = reader1.nextLine();
             postNum = postalCode.length();
 
         }
-        String file = "scr\\postal_codes.csv";
-
-        BufferedReader reader = null;
-
-        // used to read each linke of file
-        String line = "";
-
+        
+        BufferedReader reader;
         try {
-            reader = new BufferedReader(new FileReader(file));
-            while((line = reader.readLine()) != null){
-                String[] row = line.split(",");
-                for (String index : row){
-                    System.out.print("%10s", args)
-                }
-                System.out.println();
+            reader = new BufferedReader(new FileReader("postal_codes.csv"));
+            String line = reader.readLine();
+            while(!(postalCode.equals(line))){
+                System.out.println("This is not a valid postal code. Please enter your 3 digit postal code: ")
+                postalCode = reader1.nextLine();
+                postNum = postalCode.length();
             }
             
 
-        } 
-        
-        // If something goes wrong
-        catch (Exception e) {
-            e.printStackTrace();
+            reader.close();  
+        }
 
-        } finally {
+        catch(IOException e) {
+            e.printStackTrace();
 
         }
 
+        
+
+        
     }
 
     /*
