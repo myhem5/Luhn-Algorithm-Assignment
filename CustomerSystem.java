@@ -135,7 +135,7 @@ class CustomerSystem {
                 reader = new BufferedReader(new FileReader("postal_codes.csv"));
                 String line = reader.readLine();
                 while(!(postalCode.equals(line))){
-                    System.out.println("This is not a valid postal code. Please enter your postal code: ")
+                    System.out.println("This is not a valid postal code. Please enter your postal code: ");
                     postalCode = reader1.nextLine();
                     postNum = postalCode.length();
                 }
