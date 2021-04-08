@@ -3,6 +3,10 @@
 import java.util.Scanner;
 // More packages may be imported in the space below
 
+import java.io.File;
+
+import java.io.FileNotFoundException;
+
 class CustomerSystem {
     public static void main(String[] args) {
         // Please do not edit any of these variables
@@ -75,7 +79,7 @@ class CustomerSystem {
      * may not nesessarily be a void return type This method may also be broken down
      * further depending on your algorithm
      */
-    public static void validatePostalCode(int postalCode) {
+    public static void validatePostalCode(String postalCode) {
         Scanner reader = new Scanner(System.in);
         // count the digits in postal code
         postNum = postalCode.length();
@@ -85,6 +89,34 @@ class CustomerSystem {
         while (postNum != 3) {
             System.out.print("This is not a valid postal code. Please enter your 3 digit postal code: ");
             postalCode = reader.nextLine();
+            postNum = postalCode.length();
+
+        }
+        String file = "scr\\postal_codes.csv";
+
+        BufferedReader reader = null;
+
+        // used to read each linke of file
+        String line = "";
+
+        try {
+            reader = new BufferedReader(new FileReader(file));
+            while((line = reader.readLine()) != null){
+                String[] row = line.split(",");
+                for (String index : row){
+                    System.out.print("%10s", args)
+                }
+                System.out.println();
+            }
+            
+
+        } 
+        
+        // If something goes wrong
+        catch (Exception e) {
+            e.printStackTrace();
+
+        } finally {
 
         }
 
