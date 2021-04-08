@@ -86,7 +86,7 @@ class CustomerSystem {
         System.out.print("Credit card number: ");
         String creditCardNum = reader.nextLine();
 
-        return firstName,lastName,city,postalCode, creditCardNum;
+        return (firstName,lastName, city, postalCode, creditCardNum);
         reader.close();
     }
 
