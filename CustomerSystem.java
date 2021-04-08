@@ -74,6 +74,18 @@ class CustomerSystem {
      * further depending on your algorithm
      */
     public static void validatePostalCode() {
+        Scanner reader = new Scanner(System.in);
+        // count the digits in postal code
+        int postNum = postalCode.length();
+
+        // if the postal code num is more then 3 or less then 3 digits
+
+        while (postNum != 3) {
+            System.out.print("This is not a valid postal code. Please enter your 3 digit postal code: ");
+            int postalCode = reader.nextLine();
+
+        }
+
     }
 
     /*
