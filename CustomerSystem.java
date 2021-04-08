@@ -10,6 +10,8 @@ import java.io.FileNotFoundException;
 import java.io.BufferedReader;
 
 class CustomerSystem {
+    static String firstName, lastName, city, postalCode, creditCardNum;
+
     public static void main(String[] args) {
         // Please do not edit any of these variables
         Scanner reader = new Scanner(System.in);
@@ -20,6 +22,9 @@ class CustomerSystem {
 
         // More variables for the main may be declared in the space below
 
+        // Declare Customer ID of user
+        int userData = 0;
+
         do {
             printMenu(); // Printing out the main menu
             userInput = reader.nextLine(); // User selection from the menu
@@ -29,21 +34,25 @@ class CustomerSystem {
                 // design the method return
                 // Any necessary variables may be added to this if section, but nowhere else in
                 // the code
+                String[] array = new String[5];
+                String[] array2 = enterCustomerInfo(array);
 
-                String fName = " ";
-                String lName = " ";
-                String pCode = " ";
-                String cCardNum = " ";
-                String city = " ";
+                for (int x = 0; x < array2.length; x++)
+                    System.out.print(array2[x]);
 
-                enterCustomerInfo(fName,lName,city,pCode,cCardNum);
-                
-                
+                // add 1 for every new info input
+                userData++;
+                try {
+                    validatePostalCode(postalCode);
 
-                validatePostalCode(pCode);
+                } catch (Exception e) {
+                    System.out.println(e);
 
-                
-                validateCreditCard(cCardNum);
+                }
+
+                validateCreditCard(creditCardNum);
+
+                generateCustomerDataFile();
 
             } else if (userInput.equals(generateCustomerOption)) {
                 // Only the line below may be editted based on the parameter list and how you
@@ -68,31 +77,40 @@ class CustomerSystem {
 
     /*
      * This method may be edited to achieve the task however you like. The method
-     * may not nesessarily be a void return type This method may also be broken down
+     * may not necessarily be a void return type This method may also be broken down
      * further depending on your algorithm
      */
-    public static void enterCustomerInfo() {
+    public static String[] enterCustomerInfo(String[] array) {
         Scanner reader = new Scanner(System.in);
 
         // input first and last name, city, and postal code
         System.out.print("Enter your information \nPlease enter your: \nFirst name: ");
-        String firstName = reader.nextLine();
-        System.out.print("Last name: ");
-        String lastName = reader.nextLine();
-        System.out.print("City: ");
-        String city = reader.nextLine();
-        System.out.print("Postal Code (no spaces): ");
-        String postalCode = reader.nextLine();
-        System.out.print("Credit card number: ");
-        String creditCardNum = reader.nextLine();
+        firstName = reader.nextLine();
 
-        return (firstName,lastName, city, postalCode, creditCardNum);
+        System.out.print("Last name: ");
+        lastName = reader.nextLine();
+        System.out.print("City: ");
+        city = reader.nextLine();
+        System.out.print("Postal Code (no spaces): ");
+        postalCode = reader.nextLine();
+        System.out.print("Credit card number: ");
+        creditCardNum = reader.nextLine();
+
         reader.close();
+
+        array[0] = firstName;
+        array[1] = lastName;
+        array[2] = city;
+        array[3] = postalCode;
+        array[4] = creditCardNum;
+
+        return array;
+
     }
 
     /*
      * This method may be edited to achieve the task however you like. The method
-     * may not nesessarily be a void return type This method may also be broken down
+     * may not necessarily be a void return type This method may also be broken down
      * further depending on your algorithm
      */
     public static void validatePostalCode(String postalCode) {
@@ -101,33 +119,38 @@ class CustomerSystem {
         // count the digits in postal code
         int postNum = postalCode.length();
 
-        // if the postal code num is more then 3 or less then 3 digits
+        // if the postal code num is less than 3 digits
 
         while (postNum < 3) {
-            System.out.print("This is not a valid postal code. Please enter your 3 digit postal code: ");
+            System.out.print("This is not a valid postal code. Please enter your postal code: ");
             postalCode = reader1.nextLine();
             postNum = postalCode.length();
 
         }
         
         BufferedReader reader;
-        try {
-            reader = new BufferedReader(new FileReader("postal_codes.csv"));
-            String line = reader.readLine();
-            while(!(postalCode.equals(line))){
-                System.out.println("This is not a valid postal code. Please enter your 3 digit postal code: ")
-                postalCode = reader1.nextLine();
-                postNum = postalCode.length();
+
+        if (postNum >= 3){
+            try {
+                reader = new BufferedReader(new FileReader("postal_codes.csv"));
+                String line = reader.readLine();
+                while(!(postalCode.equals(line))){
+                    System.out.println("This is not a valid postal code. Please enter your postal code: ")
+                    postalCode = reader1.nextLine();
+                    postNum = postalCode.length();
+                }
+                
+    
+                reader.close();  
             }
-            
-
-            reader.close();  
-        }
-
-        catch(IOException e) {
-            e.printStackTrace();
+    
+            catch(IOException e) {
+                e.printStackTrace();
+    
+            }
 
         }
+        
 
         
 
@@ -136,7 +159,7 @@ class CustomerSystem {
 
     /*
      * This method may be edited to achieve the task however you like. The method
-     * may not nesessarily be a void return type This method may also be broken down
+     * may not necessarily be a void return type This method may also be broken down
      * further depending on your algorithm
      */
     public static void validateCreditCard(String creditCardNum) {
@@ -184,10 +207,11 @@ class CustomerSystem {
 
     /*
      * This method may be edited to achieve the task however you like. The method
-     * may not nesessarily be a void return type This method may also be broken down
+     * may not necessarily be a void return type This method may also be broken down
      * further depending on your algorithm
      */
     public static void generateCustomerDataFile() {
+
     }
     /*******************************************************************
      * ADDITIONAL METHODS MAY BE ADDED BELOW IF NECESSARY *
