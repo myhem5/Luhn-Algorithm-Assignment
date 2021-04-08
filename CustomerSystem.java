@@ -66,6 +66,8 @@ class CustomerSystem {
         System.out.print("Postal Code (no spaces): ");
         String postalCode = reader.nextLine();
         System.out.print("Credit card number: ");
+
+        reader.close();
     }
 
     /*
@@ -73,16 +75,16 @@ class CustomerSystem {
      * may not nesessarily be a void return type This method may also be broken down
      * further depending on your algorithm
      */
-    public static void validatePostalCode() {
+    public static void validatePostalCode(int postalCode) {
         Scanner reader = new Scanner(System.in);
         // count the digits in postal code
-        int postNum = postalCode.length();
+        postNum = postalCode.length();
 
         // if the postal code num is more then 3 or less then 3 digits
 
         while (postNum != 3) {
             System.out.print("This is not a valid postal code. Please enter your 3 digit postal code: ");
-            int postalCode = reader.nextLine();
+            postalCode = reader.nextLine();
 
         }
 
@@ -132,6 +134,7 @@ class CustomerSystem {
             creditCardNum = reader.nextLine();
             len = creditCardNum.length();
         }
+        reader.close();
 
     }
 
