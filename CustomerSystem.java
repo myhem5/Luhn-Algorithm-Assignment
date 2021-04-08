@@ -30,12 +30,21 @@ class CustomerSystem {
                 // Any necessary variables may be added to this if section, but nowhere else in
                 // the code
 
-                enterCustomerInfo();
-                String PostalCode = reader.nextLine();
-                validatePostalCode(PostalCode);
+                String fName = " ";
+                String lName = " ";
+                String pCode = " ";
+                String cCardNum = " ";
+                String city = " ";
+
+                enterCustomerInfo(fName,lName,city,pCode,cCardNum);
                 
-                String creditCardNum = reader.nextLine();
-                validateCreditCard(creditCardNum);
+                
+
+                validatePostalCode(pCode);
+
+                
+                validateCreditCard(cCardNum);
+
             } else if (userInput.equals(generateCustomerOption)) {
                 // Only the line below may be editted based on the parameter list and how you
                 // design the method return
@@ -75,7 +84,9 @@ class CustomerSystem {
         System.out.print("Postal Code (no spaces): ");
         String postalCode = reader.nextLine();
         System.out.print("Credit card number: ");
+        String creditCardNum = reader.nextLine();
 
+        return firstName,lastName,city,postalCode, creditCardNum;
         reader.close();
     }
 
