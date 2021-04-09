@@ -29,15 +29,15 @@ class CustomerSystemFinal {
                 enterCustomerInfo();
                 userCode++;
 
-                try{
+                /*try{
                     validatePostalCode();
 
                 }
                 catch(Exception e){
                     System.out.println(e);
                 }
-              
-
+              */
+                validateCreditCard();
         
             } else if (userInput.equals(generateCustomerOption)) {
                 // Only the line below may be editted based on the parameter list and how you
@@ -88,7 +88,7 @@ class CustomerSystemFinal {
      * may not necessarily be a void return type This method may also be broken down
      * further depending on your algorithm
      */
-    public static void validatePostalCode() {
+   /* public static void validatePostalCode() {
 
         // Length of code
         int length = postalCode.length();
@@ -148,9 +148,10 @@ class CustomerSystemFinal {
                 }
             }
         }
-        
-
     }
+        */
+
+    
 
     /*
      * This method may be edited to achieve the task however you like. The method
@@ -198,8 +199,9 @@ class CustomerSystemFinal {
                 System.out.println("This is a valid credit card");
                 validated = true;
             }
-            reader.close();
+            
         }
+        reader.close();
     }
 
     /*
@@ -209,7 +211,8 @@ class CustomerSystemFinal {
      */
     public static void generateCustomerDataFile() {
         Scanner reader = new Scanner(System.in);
-        if (!creditCardNum.equals(false) && !postalCode.equals(false))){
+        if (!creditCardNum.equals(false) ){
+        //&& !postalCode.equals(false)){
             //Success input
             System.out.println("Your data file CSV will be generated.");
             System.out.println();
@@ -232,7 +235,7 @@ class CustomerSystemFinal {
                     System.out.println("First Name:" + firstName);
                     System.out.println("Last Name:" + lastName);
                     System.out.println("City" + city);
-                    System.out.println("Postal Code:" + postalCode);
+                    //System.out.println("Postal Code:" + postalCode);
                     System.out.println("Credit Card Number:" + creditCardNum);
 
                     System.out.println("");
