@@ -3,14 +3,12 @@
 import java.util.Scanner;
 // More packages may be imported in the space below
 
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.FileNotFoundException;
+import java.io.File;
+import java.io.PrintWriter;
 
-import java.io.BufferedReader;
-
-class CustomerSystem {
-    static String firstName, lastName, city, postalCode, creditCardNum;
+class CustomerSystemFinal {
+    static String firstName, lastName, city, postalCode, creditCardNum, userCode;
 
     public static void main(String[] args) {
         // Please do not edit any of these variables
@@ -20,41 +18,27 @@ class CustomerSystem {
         generateCustomerOption = "2";
         exitCondition = "9";
 
-        // More variables for the main may be declared in the space below
-
-        // Declare Customer ID of user
-        int userData = 0;
-
+        // Declare Customer ID
+        int userCode = 0;
+        
         do {
             printMenu(); // Printing out the main menu
             userInput = reader.nextLine(); // User selection from the menu
 
             if (userInput.equals(enterCustomerOption)) {
-                // Only the line below may be editted based on the parameter list and how you
-                // design the method return
-                // Any necessary variables may be added to this if section, but nowhere else in
-                // the code
-                // put arrays in main method
-                String[] array = new String[5];
-                String[] array2 = enterCustomerInfo(array);
+                enterCustomerInfo();
+                userCode++;
 
-                for (int x = 0; x < array2.length; x++)
-                    System.out.print(array2[x]);
-
-                // add 1 for every new info input
-                userData++;
-                try {
-                    validatePostalCode(postalCode);
-
-                } catch (Exception e) {
-                    System.out.println(e);
+                try{
+                    validatePostalCode();
 
                 }
-                //validate creditcard number 
-                validateCreditCard(creditCardNum);
+                catch(Exception e){
+                    System.out.println(e);
+                }
+              
 
-                generateCustomerDataFile();
-
+        
             } else if (userInput.equals(generateCustomerOption)) {
                 // Only the line below may be editted based on the parameter list and how you
                 // design the method return
@@ -81,7 +65,8 @@ class CustomerSystem {
      * may not necessarily be a void return type This method may also be broken down
      * further depending on your algorithm
      */
-    public static String[] enterCustomerInfo(String[] array) {
+
+    public static void enterCustomerInfo() {
         Scanner reader = new Scanner(System.in);
 
         // input first and last name, city, and postal code
@@ -95,17 +80,7 @@ class CustomerSystem {
         postalCode = reader.nextLine();
         System.out.print("Credit card number: ");
         creditCardNum = reader.nextLine();
-
         reader.close();
-        // store strings as arrays
-        array[0] = firstName;
-        array[1] = lastName;
-        array[2] = city;
-        array[3] = postalCode;
-        array[4] = creditCardNum;
-        //return array to main method
-        return array;
-
     }
 
     /*
@@ -113,42 +88,67 @@ class CustomerSystem {
      * may not necessarily be a void return type This method may also be broken down
      * further depending on your algorithm
      */
-    public static void validatePostalCode(String postalCode) {
+    public static void validatePostalCode() {
 
-        Scanner reader1 = new Scanner(System.in);
-        // count the digits in postal code
-        int postNum = postalCode.length();
-
-        // if the postal code num is less than 3 digits
-
-        while (postNum < 3) {
-            System.out.print("This is not a valid postal code. Please enter your postal code: ");
-            postalCode = reader1.nextLine();
-            postNum = postalCode.length();
-
-        }
-
-        BufferedReader reader;
-
-        if (postNum >= 3) {
-            try {
-                reader = new BufferedReader(new FileReader("postal_codes.csv"));
-                String line = reader.readLine();
-                while (!(postalCode.equals(line))) {
-                    System.out.println("This is not a valid postal code. Please enter your postal code: ");
-                    postalCode = reader1.nextLine();
-                    postNum = postalCode.length();
+        // Length of code
+        int length = postalCode.length();
+        boolean validated = false;
+        while (!validated){
+            if (length >= 3) {
+                //open file, file Name
+                String file = "postal_codes.csv";
+    
+                //try, catch
+                try {
+    
+                    //create file to reference
+    
+                    File sSheet = new File(file);
+    
+                    //read file
+                    // initialize scanner
+                    Scanner scanner = new Scanner(sSheet);
+    
+                    int count = 0;
+    
+                    while (scanner.hasNextLine()) {
+    
+                        // line exist
+                        String line = scanner.nextLine();
+                        // First three digit of postal code
+                        String pCode3 = postalCode.substring(0, 3);
+                        int index = line.indexOf(pCode3);
+                        scanner.close();
+    
+                        //found code
+                        if (index >= 0) {
+                            count = count + 1;
+                        }
+                    }
+                    // valid
+                    if (count == 1) {
+                        System.out.print("Valid Postal Code.");
+                        validated = true;
+                    }
+    
+                    //invalid
+                    else {
+                        System.out.print("Invalid Postal Code.");
+                        validated = false;
+                    }
+                } catch (FileNotFoundException e) {
+                    System.out.println(e);
+    
                 }
+                // If length is less then three
+                if (length < 3) {
+                    System.out.println("Invalid postal code. Enter postal code of 3 characters or more:");
+                    validated = false;
 
-                reader.close();
+                }
             }
-
-            catch (IOException e) {
-                e.printStackTrace();
-
-            }
-
         }
+        
 
     }
 
@@ -157,47 +157,49 @@ class CustomerSystem {
      * may not necessarily be a void return type This method may also be broken down
      * further depending on your algorithm
      */
-    public static void validateCreditCard(String creditCardNum) {
+
+    public static void validateCreditCard() {
         Scanner reader = new Scanner(System.in);
         // count the numbers in the credit card
         int len = creditCardNum.length();
         // if the credit card numbers are less than 9 digits, tell them to try again
-        while (len < 9) {
-            System.out.println("This is not a valid credit card. Try again.");
-            creditCardNum = reader.nextLine();
-            len = creditCardNum.length();
 
-        }
-        String reverse = "";
-        for (int i = len - 1; i >= 0; i--) {
-            reverse = reverse + creditCardNum.charAt(i);
-        }
         int oddSum = 0;
-        for (int i = 0; i < len; i += 2) {
-            char sum = reverse.charAt(i);
-            oddSum += Character.getNumericValue(sum);
-        }
         int doubleSum = 0;
+        boolean validated = false;
 
-        for (int i = 1; i < len; i += 2) {
-            int doubleDigits = Character.getNumericValue(reverse.charAt(i)) * 2;
-            if (doubleDigits > 9) {
-                doubleSum += (doubleDigits % 10) + 1;
-            } else {
-                doubleSum += doubleDigits;
-            }
-        }
-        System.out.println(doubleSum + oddSum);
-        if ((doubleSum + oddSum) % 10 == 0) {
-            System.out.println("This is a valid credit card");
-        }
-        while ((doubleSum + oddSum) % 10 != 0) {
+        while (!validated) {
+            oddSum = 0;
+            doubleSum = 0;
             System.out.println("Credit Card information is incorrect, try again");
             creditCardNum = reader.nextLine();
             len = creditCardNum.length();
-        }
-        reader.close();
 
+            String reverse = "";
+            for (int i = len - 1; i >= 0; i--) {
+                reverse = reverse + creditCardNum.charAt(i);
+            }
+            oddSum = 0;
+            for (int i = 0; i < len; i += 2) {
+                char sum = reverse.charAt(i);
+                oddSum += Character.getNumericValue(sum);
+            }
+            doubleSum = 0;
+
+            for (int i = 1; i < len; i += 2) {
+                int doubleDigits = Character.getNumericValue(reverse.charAt(i)) * 2;
+                if (doubleDigits > 9) {
+                    doubleSum += (doubleDigits % 10) + 1;
+                } else {
+                    doubleSum += doubleDigits;
+                }
+            }
+            if ((doubleSum + oddSum) % 10 == 0 && len > 9) {
+                System.out.println("This is a valid credit card");
+                validated = true;
+            }
+            reader.close();
+        }
     }
 
     /*
@@ -206,9 +208,43 @@ class CustomerSystem {
      * further depending on your algorithm
      */
     public static void generateCustomerDataFile() {
+        Scanner reader = new Scanner(System.in);
+        if (!creditCardNum.equals(false) && !postalCode.equals(false))){
+            //Success input
+            System.out.println("Your data file CSV will be generated.");
+            System.out.println();
 
+            //Prompt user for file name
+            System.out.println("Name your file:");
+            String fileName = reader.nextLine();
+            File outFile = new File(fileName+".csv");
+            PrintWriter out = new PrintWriter(outFile);
+
+            if(outFile.exists()){
+                System.out.println("File existing, overwrite?(y/n)");
+                if (reader.nextLine().startsWith("y") || reader.nextLine().startsWith("Y")){
+                    userCode = userCode + 1;
+
+                    //print customer data
+                    System.out.println("Customer Data file");
+                    System.out.println("____________________");
+                    System.out.println("User Id:" + userCode);
+                    System.out.println("First Name:" + firstName);
+                    System.out.println("Last Name:" + lastName);
+                    System.out.println("City" + city);
+                    System.out.println("Postal Code:" + postalCode);
+                    System.out.println("Credit Card Number:" + creditCardNum);
+
+                    System.out.println("");
+                    System.out.println("Find your information at " + fileName + ".csv");
+
+                }
+
+            }
+            out.close();
+        }
     }
-    /*******************************************************************
-     * ADDITIONAL METHODS MAY BE ADDED BELOW IF NECESSARY *
-     *******************************************************************/
 }
+/*******************************************************************
+ * ADDITIONAL METHODS MAY BE ADDED BELOW IF NECESSARY *
+ *******************************************************************/
